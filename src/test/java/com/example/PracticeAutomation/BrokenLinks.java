@@ -8,7 +8,12 @@ import static org.hamcrest.CoreMatchers.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.Select;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.time.Duration;
@@ -21,12 +26,14 @@ public class BrokenLinks {
   JavascriptExecutor js;
   @Before
   public void setUp() throws Exception {
-	  System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\Java\\chromedriver.exe");
-	  ChromeOptions options = new ChromeOptions();
-	  options.addArguments("start-maximized");
-	  options.addArguments("--remote-allow-origins=*");
-	  driver = new ChromeDriver(options);
-	  baseUrl = "https://practice-automation.com/";
+	  WebDriverManager.firefoxdriver().setup();
+		
+	    FirefoxOptions options = new FirefoxOptions();
+	    options.addArguments("--headless");
+	    options.addArguments("--start-maximized");
+	    options.addArguments("--disable-notifications");
+		options.addArguments("--disable-gpu");
+		driver = new FirefoxDriver(options);
 	  driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 	  js = (JavascriptExecutor) driver;
 	  }
